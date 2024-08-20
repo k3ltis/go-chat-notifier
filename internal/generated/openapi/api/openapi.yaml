@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: thomklic@gmail.com
+  description: "Endpoint definition for a service processing notifications. See [OpenAPI\
+    \ Specification V3.0.3](https://swagger.io/specification/v3/)"
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  title: Notification Service
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: Notification related endpoints
+  name: notification
+paths:
+  /notification:
+    post:
+      description: "Receives a notification with type, name, and description"
+      operationId: postNotification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+        description: Receives a notification
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+        "400":
+          description: Invalid JSON payload
+      summary: Receives notification
+      tags:
+      - notification
+components:
+  schemas:
+    Notification:
+      example:
+        name: Backup Failure
+        description: The backup failed due to a database problem
+        type: warning
+      properties:
+        type:
+          description: The notification's severity level
+          enum:
+          - info
+          - warning
+          example: warning
+          type: string
+        name:
+          description: The notification's title stating the kind of notification
+          example: Backup Failure
+          type: string
+        description:
+          description: Description of the notification cause
+          example: The backup failed due to a database problem
+          type: string
+      type: object

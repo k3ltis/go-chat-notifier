@@ -1,0 +1,5 @@
+{
+    "type": "warning",
+    "name": "Backup Failure",
+    "description": "The backup failed due to a database problem"
+  }

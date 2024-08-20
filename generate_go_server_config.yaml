@@ -1,0 +1,6 @@
+onlyInterfaces: false
+outputAsLibrary: true
+packageName: openapi
+sourceFolder: openapi
+packageVersion: 1.0.0
+serverPort: 8080
