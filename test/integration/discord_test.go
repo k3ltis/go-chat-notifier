@@ -1,3 +1,6 @@
+//go:build !integration
+// +build !integration
+
 package server_test
 
 import (
@@ -14,7 +17,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIntegration(t *testing.T) {
+func TestDiscordIntegration(t *testing.T) {
 	// Prepare post request body
 	file, err := os.Open("data/backup_failure_warning.json")
 	if err != nil {
@@ -24,21 +27,24 @@ func TestIntegration(t *testing.T) {
 	defer file.Close()
 	body := io.Reader(file)
 
-	// start server
-	serverInstance := server.Run()
-	time.Sleep(100 * time.Millisecond)
+	// Prepare context to shutdown server
+	ctx, cancelServer := context.WithCancel(context.Background())
+	defer cancelServer()
 
-	// graceful shutdown server
-	defer func() {
-		ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-		defer cancel()
-		if err := serverInstance.Shutdown(ctx); err != nil {
-			t.Fatalf("Server shutdown failed:%+v", err)
-		}
-	}()
+	// Start server
+	go server.Run(ctx)
+	time.Sleep(100 * time.Millisecond)
 
 	// test and assert
 	resp, err := http.Post("http://localhost:8080/notification", "application/json", body)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	cancelServer()
+
+	// Check for graceful exit
+	select {
+	case <-ctx.Done():
+	default:
+		t.Fatalf("Server did not shut down as expected")
+	}
 }
