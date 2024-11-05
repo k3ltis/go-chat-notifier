@@ -1,16 +1,16 @@
 # Take-home challenge
 
-Goal is to create a Go-driven REST service sending messages to Teams.
+Goal is to create a Go-driven REST service sending messages to a chat service.
 
 ## Challenge Summary
 
 - **Objective**: 
-  - Develop a RESTful web service in Go that processes and forwards specific notifications to a Microsoft Teams channel.
+  - Develop a RESTful web service in Go that processes and forwards specific notifications to a Discord channel
 
 - **Functional Requirements**:
   - The service should expose a POST endpoint to receive notifications.
   - Notifications are JSON payloads that include at least a `Type`, `Name`, and `Description`.
-  - Only notifications with the `Type` set to "Warning" should be forwarded to the Teams channel.
+  - Only notifications with the `Type` set to "Warning" should be forwarded to the Discord channel.
   - Notifications with other types, such as "Info", should not be forwarded and should be ignored.
 
 - **Technical Requirements**:
