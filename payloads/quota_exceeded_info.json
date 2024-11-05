@@ -1,0 +1,5 @@
+{
+    "type": "info",
+    "name": "Quota Exceeded",
+    "description": "Compute Quota exceeded"
+  }
