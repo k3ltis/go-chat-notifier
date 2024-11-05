@@ -56,12 +56,20 @@ Invalid payloads
 http POST localhost:8080/notification @payloads/unknown_type.json
 ```
 
+## Unit testing
+
+Run unit tests only
+
+```
+go test -tags=integration ./...
+```
+
 ## Integration testing
 
 * The integration test requires a webhook url provided via the environment variable `DISCORD_WEBHOOK_URL`
 
 ```bash
-DISCORD_WEBHOOK_URL=WEBHOOKURL go test test/server_test.go 
+DISCORD_WEBHOOK_URL=WEBHOOKURL go test ./...
 ```
 
 
